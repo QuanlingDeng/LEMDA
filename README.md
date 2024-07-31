@@ -5,7 +5,7 @@ This MATLAB package documents the algorithms for the LEMDA framework. In particu
 
 - For Figure 9, run LEMDA.m in the LEMDA folder to generate a set of Figures then use them as subfigures for Figure 9.
 
-- For Figure 8, run EuDAloop2CF.m and EuDAloop3nxCF.m in folder LaEuDA. These loop files requires substantial computational cost, there were ran in clusters. We suggest using parallel computing here as well.
+- For Figure 8, run EuDAloop2CF.m and EuDAloop3nxCF.m in folder LaEuDA. These loop files require substantial computational cost, there were run in clusters. We suggest using parallel computing here as well.
   
 - For Figure 7, run EuDACF.m in folder LaEuDA; 
 
