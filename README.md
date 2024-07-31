@@ -19,28 +19,28 @@ This MATLAB package documents the algorithms for the LEMDA framework. In particu
 
 - For Figure 2, run LaDAex1xloop.m in folder LaEuDA.
 
-%********************************************************************
-%
-%  LEMDA: Lagrangian Eulerian Multiscale Data Assimilation
-%
-%  If you intend to use this package, please acknowledge the authors and the
-%  source, particularly by citing our work on LEMDA.
-%
-%  Permission to use this work is granted, provided that the copies
-%  are not made or distributed for commercial purposes and provided that
-%  NO WARRANTY, express or implied, of merchantability or fitness for any
-%  particular purpose is made with respect to products which have been altered,
-%  subjected to abuse or improperly used. Under no circumstances will the
-%  author be liable for any damages, lost profits, malpractice claims, 
-%  inconvenience, or any other losses caused by the use of this package.
-%
-%  If anyone needs other permissions that aren't covered by the above,
-%  please contact the authors. All rights reserved.
-%
-%  (c) Quanling Deng, 2022-2024
-%  Quanling.Deng@anu.edu.au; qdeng12@gmail.com
-%
-%  School of Computing
-%  Australian National University
-%
-%********************************************************************
+********************************************************************
+
+ LEMDA: Lagrangian Eulerian Multiscale Data Assimilation 
+
+ If you intend to use this package, please acknowledge the authors and the
+ source, particularly by citing our work on LEMDA.
+
+ Permission to use this work is granted, provided that the copies
+ are not made or distributed for commercial purposes and provided that
+ NO WARRANTY, express or implied, of merchantability or fitness for any
+ particular purpose is made with respect to products which have been altered,
+ subjected to abuse or improperly used. Under no circumstances will the
+ author be liable for any damages, lost profits, malpractice claims, 
+ inconvenience, or any other losses caused by the use of this package.
+
+ If anyone needs other permissions that aren't covered by the above,
+ please contact the authors. All rights reserved.
+
+ (c) Quanling Deng, 2022-2024
+ Quanling.Deng@anu.edu.au; qdeng12@gmail.com
+
+ School of Computing
+ Australian National University
+
+********************************************************************
