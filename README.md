@@ -17,7 +17,7 @@ This MATLAB package documents the algorithms for the LEMDA framework. In particu
 
 - For Figure 3, run LaDAex1xReduced.m in folder LaEuDA.
 
-- For Figure 2, run LaDAex1xloop.m in folder LaEuDA.
+- For Figure 2, run LaDAex1xloop.m in folder LaEuDA. There are several loops for different beta values (drag coefficients). We modify the beta values in line 39 for different values used for Panels (a-c) in Figure 1.  Other panels in Figure 1 are special cases of these loops. 
 
 ********************************************************************
 
