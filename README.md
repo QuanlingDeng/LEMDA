@@ -11,7 +11,7 @@ This MATLAB package documents the algorithms for the LEMDA framework. In particu
 
 - For Figure 6, run LaDAloopSigv.m in folder LaEuDA
 
-- For Figure 5, run EuDAloop2.m and EuDAloop3nx.m in folder LaEuDA.
+- For Figure 5, run EuDAloop2CF.m and EuDAloop3nxCF.m in folder LaEuDA.
 
 - For Figure 4, run EuDAloop2.m and EuDAloop3nx.m in folder LaEuDA.
 
