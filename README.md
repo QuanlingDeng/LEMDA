@@ -5,8 +5,6 @@ This MATLAB package documents the algorithms for the LEMDA framework. In particu
 
 - For Figures 2, 3, and 4, run LaDA_floe.m in folder LaEuDA. There are several loops for different beta values (drag coefficients) and L (number of particles) values. We can modify the beta values in line 16 and L values in line 9 in this file LaDA_floe.m to generate the individual cases and combine them to generate these Figures 2, 3, and 4.  
 
-- For Figure 3, run LaDAex1xReduced.m in folder LaEuDA.
-
 - For Figure 5 and panels (a)-(c) of Figure 6, run EuDAloop2.m in folder LaEuDA to generate all the synthetic data and EuDA posterior means and covariances for L=j*500, j=1,2,...16, number of floes. This will produce panel (c) of Figure 6. Then uncomment lines 202 to 373 in EuDAloop2.m to generate the panels (a)-(c) of Figure 5. For panel (d) of Figure 5, run rmsepccPhyDomainEuDA.m and then ``Run Section" (Matlab functionality) of the section of lines 43 to 67. Similar to panel (d) of Figure 5, run the saved data to generate panels (a)-(b) of Figure 6.
 
 - For panel (d) of Figure 6, it is similar to the loop on the number of particles. Herein, the loop is on the grid size. Run EuDAloop3nx.m in folder LaEuDA.
