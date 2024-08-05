@@ -24,30 +24,30 @@
 %
 %********************************************************************
 
-% Eulerian data assimilation with observational data on number density
-close all; clc; clear all; 
-rng(77); % fix the random number seed to reproduce results
-tic 
-beta = 1; 
-domain = [-pi pi -pi pi];
-
-% generate ocean current
-OU_SWEex3 % incompressible flow; only GB modes
-timeEuDAocn = toc
-save('./uhat/ocn.mat', "u_hat","kk","rk");
-% % file_name = sprintf('./data90kkmax4dt4/uhat/ocn.mat');
-% % load(file_name) 
-nx = 9; ny = nx; ndim = nx^2;
-sigma_xy = 0.001; % noise in the Lagrangian tracer equations
-sigma_v = 0.00;
-
-npset=(16)*500;
-for npi = 1:length(npset)
-    np = npset(npi); 
-
-    maxo = solveParticleModelLoop(domain, sigma_xy, sigma_v, np, npi, dt, kk, rk, N, u_hat,beta);
-    [npi toc]
-end
+% % Eulerian data assimilation with observational data on number density
+% close all; clc; clear all; 
+% rng(77); % fix the random number seed to reproduce results
+% tic 
+% beta = 1; 
+% domain = [-pi pi -pi pi];
+% 
+% % generate ocean current
+% OU_SWEex3 % incompressible flow; only GB modes
+% timeEuDAocn = toc
+% save('./uhat/ocn.mat', "u_hat","kk","rk");
+% % % file_name = sprintf('./data90kkmax4dt4/uhat/ocn.mat');
+% % % load(file_name) 
+% nx = 9; ny = nx; ndim = nx^2;
+% sigma_xy = 0.001; % noise in the Lagrangian tracer equations
+% sigma_v = 0.00;
+% 
+% npset=(16)*500;
+% for npi = 1:length(npset)
+%     np = npset(npi); 
+% 
+%     maxo = solveParticleModelLoop(domain, sigma_xy, sigma_v, np, npi, dt, kk, rk, N, u_hat,beta);
+%     [npi toc]
+% end
 
 savedn = 5000; nxset=(1:5)*3+3; np = 8000;
 for npi = 1:length(nxset)
@@ -202,176 +202,176 @@ for npi = 1:length(nxset)
     
     
     %% The following lines are for plotting the results
-    %u_post_mean = abs(u_post_mean);
-    figure
-    for i = 1:4
-        subplot(4,2,2*i-1)
-        hold on
-        %indd = mod(24*(i-1)+1,40); % for kmax = 3
-        indd = Dim_Ug*2 + 13*(i-1)+1;
-        plot(dt:dt:N*dt, real(u_hat(indd,1:N)), 'b', 'linewidth',2)
-        plot(dt:dt:N*dt, real(u_post_mean(indd,:)), 'r', 'linewidth',2)
-        title(['(a) GB mode ( ', num2str(kk(1,indd)),' , ', num2str(kk(2,indd)), ' )'],'fontsize',14)
-        patch([dt:dt:N*dt,N*dt:-dt:dt], [real(u_post_mean(indd,:))+2*sqrt(real(u_post_cov(indd,:))), real(u_post_mean(indd,end:-1:1))-2*sqrt(real(u_post_cov(indd,end:-1:1)))],'r','facealpha',0.2,'linestyle','none')
-        set(gca,'fontsize',15)
-        box on
-        xlabel('t')
-        
-        
-        subplot(4,2,2*i)
-        hold on
-        indd = Dim_Ug*2 + 15*(i-1)+4;
-        plot(dt:dt:N*dt, real(u_hat(indd,1:N)), 'b', 'linewidth',2)
-        plot(dt:dt:N*dt, real(u_post_mean(indd,:)), 'r', 'linewidth',2)
-        patch([dt:dt:N*dt,N*dt:-dt:dt], [real(u_post_mean(indd,:))+2*sqrt(real(u_post_cov(indd,:))), real(u_post_mean(indd,end:-1:1))-2*sqrt(real(u_post_cov(indd,end:-1:1)))],'r','facealpha',0.2,'linestyle','none')
-        title(['(d) GB mode ( ', num2str(kk(1,indd)),' , ', num2str(kk(2,indd)), ' )'],'fontsize',14)
-        
-        set(gca,'fontsize',15)
-        box on
-        xlabel('t')
-    end
+%     %u_post_mean = abs(u_post_mean);
+%     figure
+%     for i = 1:4
+%         subplot(4,2,2*i-1)
+%         hold on
+%         %indd = mod(24*(i-1)+1,40); % for kmax = 3
+%         indd = Dim_Ug*2 + 13*(i-1)+1;
+%         plot(dt:dt:N*dt, real(u_hat(indd,1:N)), 'b', 'linewidth',2)
+%         plot(dt:dt:N*dt, real(u_post_mean(indd,:)), 'r', 'linewidth',2)
+%         title(['(a) GB mode ( ', num2str(kk(1,indd)),' , ', num2str(kk(2,indd)), ' )'],'fontsize',14)
+%         patch([dt:dt:N*dt,N*dt:-dt:dt], [real(u_post_mean(indd,:))+2*sqrt(real(u_post_cov(indd,:))), real(u_post_mean(indd,end:-1:1))-2*sqrt(real(u_post_cov(indd,end:-1:1)))],'r','facealpha',0.2,'linestyle','none')
+%         set(gca,'fontsize',15)
+%         box on
+%         xlabel('t')
+%         
+%         
+%         subplot(4,2,2*i)
+%         hold on
+%         indd = Dim_Ug*2 + 15*(i-1)+4;
+%         plot(dt:dt:N*dt, real(u_hat(indd,1:N)), 'b', 'linewidth',2)
+%         plot(dt:dt:N*dt, real(u_post_mean(indd,:)), 'r', 'linewidth',2)
+%         patch([dt:dt:N*dt,N*dt:-dt:dt], [real(u_post_mean(indd,:))+2*sqrt(real(u_post_cov(indd,:))), real(u_post_mean(indd,end:-1:1))-2*sqrt(real(u_post_cov(indd,end:-1:1)))],'r','facealpha',0.2,'linestyle','none')
+%         title(['(d) GB mode ( ', num2str(kk(1,indd)),' , ', num2str(kk(2,indd)), ' )'],'fontsize',14)
+%         
+%         set(gca,'fontsize',15)
+%         box on
+%         xlabel('t')
+%     end
     
     %%
-    rmsepccPhyDomain
+    rmsepccPhyDomainEuDA
     
-%%
-    figure
-    pnx = 32; pny = 32;
-    [nxx,nyy] = meshgrid(linspace(-pi,pi,pnx), linspace(-pi,pi,pny));
-    nx_vec = [reshape(nxx,[],1), reshape(nyy,[],1)]; % becoming a two column matrix
-    
-    xx = nxx; yy = nyy;
-    ind = 1000;
-    subplot(2,4,1)
-    vx = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(1,:)));
-    vy = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(2,:)));
-    vx = reshape(real(vx), pny, pnx);
-    vy = reshape(real(vy), pny, pnx);
-    vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
-    hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
-    colorbar
-    quiver(xx, yy, vx, vy, 'linewidth',1.5)
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    set(gca,'fontsize',16)
-    box on
-    ylabel('SWE current')
-    
-    subplot(2,4,5)
-    vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(1,:)));
-    vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(2,:)));
-    vx = reshape(real(vx), pny, pnx);
-    vy = reshape(real(vy), pny, pnx);
-    vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
-    hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
-    colorbar
-    quiver(xx, yy, vx, vy, 'linewidth',1.5)
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    set(gca,'fontsize',16)
-    box on
-    ylabel('EuDA')
-    xlabel(['t = ', num2str(dt*ind)])
-    
-    %--------------------------
-    ind = 10000;
-    subplot(2,4,2)
-    vx = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(1,:)));
-    vy = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(2,:)));
-    vx = reshape(real(vx), pny, pnx);
-    vy = reshape(real(vy), pny, pnx);
-    vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
-    hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
-    colorbar
-    quiver(xx, yy, vx, vy, 'linewidth',1.5)
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    set(gca,'fontsize',16)
-    box on
-    %ylabel('SWE current')
-    
-    subplot(2,4,6)
-    vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(1,:)));
-    vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(2,:)));
-    vx = reshape(real(vx), pny, pnx);
-    vy = reshape(real(vy), pny, pnx);
-    vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
-    hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
-    colorbar
-    quiver(xx, yy, vx, vy, 'linewidth',1.5)
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    set(gca,'fontsize',16)
-    box on
-    ylabel('EuDA')
-    xlabel(['t = ', num2str(dt*ind)])
-    
-    %--------------------------
-    ind = 30000;
-    subplot(2,4,3)
-    vx = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(1,:)));
-    vy = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(2,:)));
-    vx = reshape(real(vx), pny, pnx);
-    vy = reshape(real(vy), pny, pnx);
-    vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
-    hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
-    colorbar
-    quiver(xx, yy, vx, vy, 'linewidth',1.5)
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    set(gca,'fontsize',16)
-    box on
-    %ylabel('SWE current')
-    
-    subplot(2,4,7)
-    vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(1,:)));
-    vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(2,:)));
-    vx = reshape(real(vx), pny, pnx);
-    vy = reshape(real(vy), pny, pnx);
-    vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
-    hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
-    colorbar
-    quiver(xx, yy, vx, vy, 'linewidth',1.5)
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    set(gca,'fontsize',16)
-    box on
-    ylabel('EuDA')
-    xlabel(['t = ', num2str(dt*ind)])
-    
-    
-    %--------------------------
-    ind = 50000;
-    subplot(2,4,4)
-    vx = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(1,:)));
-    vy = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(2,:)));
-    vx = reshape(real(vx), pny, pnx);
-    vy = reshape(real(vy), pny, pnx);
-    vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
-    hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
-    colorbar
-    quiver(xx, yy, vx, vy, 'linewidth',1.5)
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    set(gca,'fontsize',16)
-    box on
-    %ylabel('SWE current')
-    
-    subplot(2,4,8)
-    vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(1,:)));
-    vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(2,:)));
-    vx = reshape(real(vx), pny, pnx);
-    vy = reshape(real(vy), pny, pnx);
-    vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
-    hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
-    colorbar
-    quiver(xx, yy, vx, vy, 'linewidth',1.5)
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    set(gca,'fontsize',16)
-    box on
-    ylabel('EuDA')
-    xlabel(['t = ', num2str(dt*ind)])
+% %%
+%     figure
+%     pnx = 32; pny = 32;
+%     [nxx,nyy] = meshgrid(linspace(-pi,pi,pnx), linspace(-pi,pi,pny));
+%     nx_vec = [reshape(nxx,[],1), reshape(nyy,[],1)]; % becoming a two column matrix
+%     
+%     xx = nxx; yy = nyy;
+%     ind = 1000;
+%     subplot(2,4,1)
+%     vx = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(1,:)));
+%     vy = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(2,:)));
+%     vx = reshape(real(vx), pny, pnx);
+%     vy = reshape(real(vy), pny, pnx);
+%     vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%     hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+%     colorbar
+%     quiver(xx, yy, vx, vy, 'linewidth',1.5)
+%     xlim([-pi, pi ])
+%     ylim([-pi, pi ])
+%     set(gca,'fontsize',16)
+%     box on
+%     ylabel('SWE current')
+%     
+%     subplot(2,4,5)
+%     vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(1,:)));
+%     vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(2,:)));
+%     vx = reshape(real(vx), pny, pnx);
+%     vy = reshape(real(vy), pny, pnx);
+%     vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%     hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+%     colorbar
+%     quiver(xx, yy, vx, vy, 'linewidth',1.5)
+%     xlim([-pi, pi ])
+%     ylim([-pi, pi ])
+%     set(gca,'fontsize',16)
+%     box on
+%     ylabel('EuDA')
+%     xlabel(['t = ', num2str(dt*ind)])
+%     
+%     %--------------------------
+%     ind = 10000;
+%     subplot(2,4,2)
+%     vx = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(1,:)));
+%     vy = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(2,:)));
+%     vx = reshape(real(vx), pny, pnx);
+%     vy = reshape(real(vy), pny, pnx);
+%     vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%     hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+%     colorbar
+%     quiver(xx, yy, vx, vy, 'linewidth',1.5)
+%     xlim([-pi, pi ])
+%     ylim([-pi, pi ])
+%     set(gca,'fontsize',16)
+%     box on
+%     %ylabel('SWE current')
+%     
+%     subplot(2,4,6)
+%     vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(1,:)));
+%     vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(2,:)));
+%     vx = reshape(real(vx), pny, pnx);
+%     vy = reshape(real(vy), pny, pnx);
+%     vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%     hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+%     colorbar
+%     quiver(xx, yy, vx, vy, 'linewidth',1.5)
+%     xlim([-pi, pi ])
+%     ylim([-pi, pi ])
+%     set(gca,'fontsize',16)
+%     box on
+%     ylabel('EuDA')
+%     xlabel(['t = ', num2str(dt*ind)])
+%     
+%     %--------------------------
+%     ind = 30000;
+%     subplot(2,4,3)
+%     vx = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(1,:)));
+%     vy = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(2,:)));
+%     vx = reshape(real(vx), pny, pnx);
+%     vy = reshape(real(vy), pny, pnx);
+%     vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%     hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+%     colorbar
+%     quiver(xx, yy, vx, vy, 'linewidth',1.5)
+%     xlim([-pi, pi ])
+%     ylim([-pi, pi ])
+%     set(gca,'fontsize',16)
+%     box on
+%     %ylabel('SWE current')
+%     
+%     subplot(2,4,7)
+%     vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(1,:)));
+%     vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(2,:)));
+%     vx = reshape(real(vx), pny, pnx);
+%     vy = reshape(real(vy), pny, pnx);
+%     vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%     hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+%     colorbar
+%     quiver(xx, yy, vx, vy, 'linewidth',1.5)
+%     xlim([-pi, pi ])
+%     ylim([-pi, pi ])
+%     set(gca,'fontsize',16)
+%     box on
+%     ylabel('EuDA')
+%     xlabel(['t = ', num2str(dt*ind)])
+%     
+%     
+%     %--------------------------
+%     ind = 50000;
+%     subplot(2,4,4)
+%     vx = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(1,:)));
+%     vy = exp(1i * nx_vec * kk) * (u_hat(:,ind) .* transpose(rk(2,:)));
+%     vx = reshape(real(vx), pny, pnx);
+%     vy = reshape(real(vy), pny, pnx);
+%     vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%     hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+%     colorbar
+%     quiver(xx, yy, vx, vy, 'linewidth',1.5)
+%     xlim([-pi, pi ])
+%     ylim([-pi, pi ])
+%     set(gca,'fontsize',16)
+%     box on
+%     %ylabel('SWE current')
+%     
+%     subplot(2,4,8)
+%     vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(1,:)));
+%     vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind) .* transpose(rk(2,:)));
+%     vx = reshape(real(vx), pny, pnx);
+%     vy = reshape(real(vy), pny, pnx);
+%     vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%     hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+%     colorbar
+%     quiver(xx, yy, vx, vy, 'linewidth',1.5)
+%     xlim([-pi, pi ])
+%     ylim([-pi, pi ])
+%     set(gca,'fontsize',16)
+%     box on
+%     ylabel('EuDA')
+%     xlabel(['t = ', num2str(dt*ind)])
     
 end
 
@@ -379,13 +379,14 @@ end
 errpcc = zeros(2, length(nxset));
 for npi = 1:length(nxset)
     
-    load(['./err/err' num2str(npi,'%01.f') 'nxx.mat'], "err")
+    %load(['./err/err' num2str(npi,'%01.f') 'nxx.mat'], "err")
+    load(['./err/EuDAonlynpi' num2str(npi,'%02.f') 'err.mat'], "err")
     
     errpcc(1, npi) = mean(0.5*(err(20000:end, 1) + err(20000:end, 2) ) );
     errpcc(2, npi) = mean(0.5*(err(20000:end, 3) + err(20000:end, 4) ) );
 end
 
-%%
+%
 figure
 subplot(2,3,3)
 hold on

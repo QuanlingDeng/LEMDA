@@ -38,8 +38,8 @@ rmse = sqrt(rmse);
 
 err = [rrmse pcc];
 %save(['./err/nsv' num2str(nsv,'%01.f') 'err.mat'], "err")
-save(['./err/EuDAonlynpi' num2str(npi,'%01.f') 'err.mat'], "err")
-
+save(['./err/EuDAonlynpi' num2str(npi,'%02.f') 'err.mat'], "err")
+return
 %%
 figure
 subplot(2,3,1)
@@ -52,6 +52,7 @@ set(gca,'fontsize',24); set(gca,'linewidth',2)
 %legend('vx','vy')
 box on
 xlabel('t')
+%
 
 subplot(2,3,4)
 hold on

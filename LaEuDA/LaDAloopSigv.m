@@ -25,7 +25,7 @@
 %********************************************************************
 
 % Lagrangian data assimilation with a given number of tracer L with
-%close all; clc; clear all;
+close all; clc; clear all;
 rng(77); % fix the random number seed to reproduce results
 tic
 beta = 1;
@@ -60,7 +60,7 @@ toc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 disp('Full filter')
 
-setsigv = (1:11)*0.02 - 0.02;
+setsigv = (1:2)*0.02 - 0.02;
 
 for nsv = 1:length(setsigv)
     

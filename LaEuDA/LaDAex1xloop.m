@@ -35,7 +35,7 @@ OU_SWEex3 % kmax = 6; incompressible flow; only GB modes
 
 sigma_xy = 0.001; % noise in the Lagrangian tracer equations
 sigma_v = 0.00;
-np = 10; nqq = 10; % np is the total number of particles in the 
+np = 120; nqq = 10; % np is the total number of particles in the 
 beta = 1; % ocean drag coefficients; 1/apha gives the decorrelation time as in a OU-process
 
 domain = [-pi pi -pi pi];
@@ -45,8 +45,10 @@ nx = 2 * K_max + 1; ny = nx; ndim = nx^2;
 maxo = solveParticleModel(domain, sigma_xy, sigma_v, np, dt, kk, rk, N, u_hat,beta);
 toc
 
+setnp = [5 10 20 30 50 80];
+
 %% LaDA data
-for nqq = 2:np
+for nqq = [5 10 20 30 50 80] %2:np
     %% LaDA data
     nqq
     x = zeros(nqq,N); y = zeros(nqq,N);
@@ -130,6 +132,39 @@ for nqq = 2:np
     save(['./uhat/uhat' num2str(nqq,'%05.f') '.mat'], "u_post_mean")
 end
 
+%%
+errpcc = zeros(2, length(setnp));
+for snpj = 1:length(setnp)
+    snp = setnp(snpj);
+    load(['./err/err' num2str(snp,'%05.f') '.mat'], "rmse", "rrmse", "pcc")
+
+    errpcc(1, snpj) = mean(0.5*(rmse(10000:end, 1) + rmse(10000:end, 2) ) );
+    errpcc(2, snpj) = mean(0.5*(pcc(10000:end, 1) + pcc(10000:end, 2) ) );
+end
+
+%
+
+figure
+subplot(2,3,1)
+hold on
+yyaxis left
+plot(setnp, errpcc(1,:), '-o', 'linewidth',2)
+title('RMSE','fontsize',24)
+set(gca,'fontsize',24); set(gca,'linewidth',2)
+%legend('vx','vy')
+box on
+
+subplot(2,3,4)
+hold on
+yyaxis right
+plot(setnp, errpcc(2,:), '-s', 'linewidth',2)
+title('PCC','fontsize',24)
+set(gca,'fontsize',24); set(gca,'linewidth',2)
+%legend('vx','vy')
+box on
+xlabel('L')
+
+
 
 %% The following lines are for plotting the results
 figure
@@ -159,7 +194,7 @@ for i = 1:4
     box on
     xlabel('t')
 end
-
+%%
 figure
 pnx = 40; pny = 40;
 [nxx,nyy] = meshgrid(linspace(-pi,pi,pnx), linspace(-pi,pi,pny));
@@ -172,7 +207,10 @@ vx = exp(1i * nx_vec * kk) * (u_hat(:,ind+1) .* transpose(rk(1,:)));
 vy = exp(1i * nx_vec * kk) * (u_hat(:,ind+1) .* transpose(rk(2,:)));
 vx = reshape(vx, pny, pnx);
 vy = reshape(vy, pny, pnx);
-quiver(xx, yy, vx, vy, 'linewidth',1.5)
+vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%quiver(xx, yy, vx, vy, 'linewidth',1.5)
+hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+colorbar
 xlim([-pi, pi ])
 ylim([-pi, pi ])
 set(gca,'fontsize',16)
@@ -180,11 +218,14 @@ box on
 ylabel('SWE current')
 
 subplot(2,4,5)
-vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind+1) .* transpose(rk(1,:)));
-vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind+1) .* transpose(rk(2,:)));
+vx = exp(1i * nx_vec * kk) * (u_post_mean(1:end-2*nqq,ind+1) .* transpose(rk(1,:)));
+vy = exp(1i * nx_vec * kk) * (u_post_mean(1:end-2*nqq,ind+1) .* transpose(rk(2,:)));
 vx = reshape(vx, pny, pnx);
 vy = reshape(vy, pny, pnx);
-quiver(xx, yy, vx, vy, 'linewidth',1.5)
+vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%quiver(xx, yy, vx, vy, 'linewidth',1.5)
+hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+colorbar
 xlim([-pi, pi ])
 ylim([-pi, pi ])
 set(gca,'fontsize',16)
@@ -199,7 +240,10 @@ vx = exp(1i * nx_vec * kk) * (u_hat(:,ind+1) .* transpose(rk(1,:)));
 vy = exp(1i * nx_vec * kk) * (u_hat(:,ind+1) .* transpose(rk(2,:)));
 vx = reshape(vx, pny, pnx);
 vy = reshape(vy, pny, pnx);
-quiver(xx, yy, vx, vy, 'linewidth',1.5)
+vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%quiver(xx, yy, vx, vy, 'linewidth',1.5)
+hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+colorbar
 xlim([-pi, pi ])
 ylim([-pi, pi ])
 set(gca,'fontsize',16)
@@ -207,11 +251,14 @@ box on
 %ylabel('SWE current')
 
 subplot(2,4,6)
-vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind+1) .* transpose(rk(1,:)));
-vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind+1) .* transpose(rk(2,:)));
+vx = exp(1i * nx_vec * kk) * (u_post_mean(1:end-2*nqq,ind+1) .* transpose(rk(1,:)));
+vy = exp(1i * nx_vec * kk) * (u_post_mean(1:end-2*nqq,ind+1) .* transpose(rk(2,:)));
 vx = reshape(vx, pny, pnx);
 vy = reshape(vy, pny, pnx);
-quiver(xx, yy, vx, vy, 'linewidth',1.5)
+vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%quiver(xx, yy, vx, vy, 'linewidth',1.5)
+hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+colorbar
 xlim([-pi, pi ])
 ylim([-pi, pi ])
 set(gca,'fontsize',16)
@@ -226,7 +273,10 @@ vx = exp(1i * nx_vec * kk) * (u_hat(:,ind+1) .* transpose(rk(1,:)));
 vy = exp(1i * nx_vec * kk) * (u_hat(:,ind+1) .* transpose(rk(2,:)));
 vx = reshape(vx, pny, pnx);
 vy = reshape(vy, pny, pnx);
-quiver(xx, yy, vx, vy, 'linewidth',1.5)
+vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%quiver(xx, yy, vx, vy, 'linewidth',1.5)
+hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+colorbar
 xlim([-pi, pi ])
 ylim([-pi, pi ])
 set(gca,'fontsize',16)
@@ -234,11 +284,14 @@ box on
 %ylabel('SWE current')
 
 subplot(2,4,7)
-vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind+1) .* transpose(rk(1,:)));
-vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind+1) .* transpose(rk(2,:)));
+vx = exp(1i * nx_vec * kk) * (u_post_mean(1:end-2*nqq,ind+1) .* transpose(rk(1,:)));
+vy = exp(1i * nx_vec * kk) * (u_post_mean(1:end-2*nqq,ind+1) .* transpose(rk(2,:)));
 vx = reshape(vx, pny, pnx);
 vy = reshape(vy, pny, pnx);
-quiver(xx, yy, vx, vy, 'linewidth',1.5)
+vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%quiver(xx, yy, vx, vy, 'linewidth',1.5)
+hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+colorbar
 xlim([-pi, pi ])
 ylim([-pi, pi ])
 set(gca,'fontsize',16)
@@ -254,7 +307,10 @@ vx = exp(1i * nx_vec * kk) * (u_hat(:,ind+1) .* transpose(rk(1,:)));
 vy = exp(1i * nx_vec * kk) * (u_hat(:,ind+1) .* transpose(rk(2,:)));
 vx = reshape(vx, pny, pnx);
 vy = reshape(vy, pny, pnx);
-quiver(xx, yy, vx, vy, 'linewidth',1.5)
+vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%quiver(xx, yy, vx, vy, 'linewidth',1.5)
+hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+colorbar
 xlim([-pi, pi ])
 ylim([-pi, pi ])
 set(gca,'fontsize',16)
@@ -262,11 +318,14 @@ box on
 %ylabel('SWE current')
 
 subplot(2,4,8)
-vx = exp(1i * nx_vec * kk) * (u_post_mean(:,ind+1) .* transpose(rk(1,:)));
-vy = exp(1i * nx_vec * kk) * (u_post_mean(:,ind+1) .* transpose(rk(2,:)));
+vx = exp(1i * nx_vec * kk) * (u_post_mean(1:end-2*nqq,ind+1) .* transpose(rk(1,:)));
+vy = exp(1i * nx_vec * kk) * (u_post_mean(1:end-2*nqq,ind+1) .* transpose(rk(2,:)));
 vx = reshape(vx, pny, pnx);
 vy = reshape(vy, pny, pnx);
-quiver(xx, yy, vx, vy, 'linewidth',1.5)
+vx = real(vx); vy = real(vy); vc = sqrt(0.5*vx.^2 + 0.5*vy.^2);
+%quiver(xx, yy, vx, vy, 'linewidth',1.5)
+hold on; contourf(nxx,nyy,vc,40,'edgecolor','none')
+colorbar
 xlim([-pi, pi ])
 ylim([-pi, pi ])
 set(gca,'fontsize',16)
@@ -312,46 +371,3 @@ for i = 1:4
     xlabel('t')
 end
 
-%%
-figure
-ss = 1;
-for i = 2:2:round(T/dt/100)
-
-    u = exp(1i * x_vec * kk) * (u_hat(:,1+100*(i-1)) .* transpose(rk(1,:)));
-    v = exp(1i * x_vec * kk) * (u_hat(:,1+100*(i-1)) .* transpose(rk(2,:)));
-    u = reshape(u, Dim_Grid, Dim_Grid);
-    v = reshape(v, Dim_Grid, Dim_Grid);
-    quiver(xx, yy, u, v, 'linewidth',1)
-    xlim([0, 2*pi ])
-    ylim([0, 2*pi ])
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    box on
-    title(['t = ', num2str(dt*100*(i-1))])
-    hold on
-    plot(x(:,1+100*(i-1)),y(:,1+100*(i-1)),'ko')
-    pause(0.1);
-    hold off
-    ss = ss + 1;
-    set(gca,'fontsize',12)
-end
-
-%%
-figure
-for i = 1:9
-    subplot(3,3,i)
-    hold on
-    u = exp(1i * x_vec * kk) * (u_hat(:,1+100*(i-1)) .* transpose(rk(1,:)));
-    v = exp(1i * x_vec * kk) * (u_hat(:,1+100*(i-1)) .* transpose(rk(2,:)));
-    u = reshape(u, Dim_Grid, Dim_Grid);
-    v = reshape(v, Dim_Grid, Dim_Grid);
-    quiver(xx, yy, u, v, 'linewidth',1)
-    xlim([0, 2*pi ])
-    ylim([0, 2*pi ])
-    xlim([-pi, pi ])
-    ylim([-pi, pi ])
-    box on
-    title(['t = ', num2str(dt*100*(i-1))])
-    plot(x(:,1+100*(i-1)),y(:,1+100*(i-1)),'ko','linewidth',2)
-    set(gca,'fontsize',12)
-end
