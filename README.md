@@ -3,7 +3,7 @@ LEMDA: Lagrangian-Eulerian Multiscale Data Assimilation
 
 This MATLAB package documents the algorithms for the LEMDA framework. In particular, it generates the Figures in the submitted LDEMA paper. Several comments are
 
-- For Figure 2, run LaDAex1xloop.m in folder LaEuDA. There are several loops for different beta values (drag coefficients). We modify the beta values in line 39 for different values used for Panels (a-c) in Figure 1.  Other panels in Figure 1 are special cases of these loops. 
+- For Figures 2, 3, and 4, run LaDA_floe.m in folder LaEuDA. There are several loops for different beta values (drag coefficients) and L (number of particles) values. We can modify the beta values in line 16 and L values in line 9 in this file LaDA_floe.m to generate the individual cases and combine them to generate these Figures 2, 3, and 4.  
 
 - For Figure 3, run LaDAex1xReduced.m in folder LaEuDA.
 
